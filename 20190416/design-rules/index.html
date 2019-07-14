@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.1.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="设计原则：5 大设计原则UNIX 的特点：  Everything (including hardware) is a file.所有的事物（甚至硬件本身）都是一个的文件。 Configuration data stored in text.以文本形式储存配置数据。 Small, single-purpose program. 程序尽量朝向小而单一的目标设计。 Avoid captive user">
+<meta property="og:type" content="article">
+<meta property="og:title" content="design-rules">
+<meta property="og:url" content="http://yoursite.com/20190416/design-rules/index.html">
+<meta property="og:site_name" content="Sharp&#39;s Blog">
+<meta property="og:description" content="设计原则：5 大设计原则UNIX 的特点：  Everything (including hardware) is a file.所有的事物（甚至硬件本身）都是一个的文件。 Configuration data stored in text.以文本形式储存配置数据。 Small, single-purpose program. 程序尽量朝向小而单一的目标设计。 Avoid captive user">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-04-25T10:52:25.737Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="design-rules">
+<meta name="twitter:description" content="设计原则：5 大设计原则UNIX 的特点：  Everything (including hardware) is a file.所有的事物（甚至硬件本身）都是一个的文件。 Configuration data stored in text.以文本形式储存配置数据。 Small, single-purpose program. 程序尽量朝向小而单一的目标设计。 Avoid captive user">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://yoursite.com/20190416/design-rules/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>design-rules | Sharp's Blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="stylesheet" href="/css/prism-atom-dark.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Sharp's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/20190416/design-rules/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sharp">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sharp's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">design-rules
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-04-16 18:51:55" itemprop="dateCreated datePublished" datetime="2019-04-16T18:51:55+08:00">2019-04-16</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-04-25 18:52:25" itemprop="dateModified" datetime="2019-04-25T18:52:25+08:00">2019-04-25</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="设计原则：5-大设计原则"><a href="#设计原则：5-大设计原则" class="headerlink" title="设计原则：5 大设计原则"></a><strong>设计原则</strong>：5 大设计原则</h3><p><strong>UNIX 的特点：</strong></p>
+<blockquote>
+<p><strong>Everything (including hardware) is a file.</strong>所有的事物（甚至硬件本身）都是一个的文件。</p>
+<p><strong>Configuration data stored in text.</strong>以文本形式储存配置数据。</p>
+<p><strong>Small, single-purpose program.</strong> 程序尽量朝向小而单一的目标设计。</p>
+<p><strong>Avoid captive user interfaces.</strong>避免过于复杂花哨的界面。</p>
+<p><strong>Ability to chain program together to perform complex tasks.</strong>将几个程序连结起来，处理大而复杂的工作。</p>
+</blockquote>
+<p><strong>Doug McIlroy（UNIX 管道的发明人、UNIX 传统的奠基人之一） 认为 UNIX 的哲学是这样的：</strong></p>
+<blockquote>
+<p><strong>Write programs that do one thing and do it well.</strong></p>
+<p>写一次只做一件事，并能把这件事做好的程序。</p>
+<p><strong>Write programs to work together.</strong></p>
+<p>写互相协作（调用）的程序。</p>
+<p><strong>Write programs to handle text streams, because that is a universal interface.</strong></p>
+<p>写处理文件流的程序。因为这（处理文件流）是一个通用接口。</p>
+</blockquote>
+<p>《<em>The Art of Unix Programming</em>》 总结了下面这些哲学：</p>
+<blockquote>
+<p><strong>Rule of Modularity: Write simple parts connected by clean interfaces.</strong></p>
+<p>模块化原则：写简单的，能够用清晰的接口连接的代码。</p>
+<p><strong>Rule of Clarity: Clarity is better than cleverness.</strong></p>
+<p>清晰化原则：清晰的代码要好过“聪明”的代码。</p>
+<p><strong>Rule of Composition: Design programs to be connected to other programs.</strong></p>
+<p>组件化原则：设计可以互相关联（拆分）的程序。</p>
+<p><strong>Rule of Separation: Separate policy from mechanism; separate interfaces from engines.</strong></p>
+<p>隔离原则：策略和机制分离，接口和引擎分离。</p>
+<p><strong>Rule of Simplicity: Design for simplicity; add complexity only where you must.</strong></p>
+<p>简洁原则：设计力求简洁，直到无法更简洁。</p>
+<p><strong>Rule of Parsimony: Write a big program only when it is clear by demonstration that nothing else will do.</strong></p>
+<p>小巧原则：不要写大的程序（模块、方法）。除非很明显的，没有别的办法可以完成。</p>
+<p><strong>Rule of Transparency: Design for visibility to make inspection and debugging easier.</strong></p>
+<p>透明原则：为可见性设计，使检查和调试更容易。</p>
+<p><strong>Rule of Robustness: Robustness is the child of transparency and simplicity.</strong></p>
+<p>健壮性原则：健壮性是透明和简单的孩子。</p>
+<p><strong>Rule of Representation: Fold knowledge into data so program logic can be stupid and robust.</strong></p>
+<p>陈述性原则：将认知转化为数据。所以，程序的逻辑可以是愚蠢（简单易懂）的，健壮的。</p>
+<p><strong>Rule of Least Surprise: In interface design, always do the least surprising thing.</strong></p>
+<p>最少的惊讶原则：在界面设计中，少做令人惊讶的设计。（不要标新立异）</p>
+<p><strong>Rule of Silence: When a program has nothing surprising to say, it should say nothing.</strong></p>
+<p>沉默原则：如果一个程序没有什么特别的东西要说（输出），那就什么都别说。</p>
+<p><strong>Rule of Repair: When you must fail, fail noisily and as soon as possible.</strong></p>
+<p>修复原则：如果必须失败，那就尽早。</p>
+<p><strong>Rule of Economy: Programmer time is expensive; conserve it in preference to machine time.</strong></p>
+<p>节约原则：程序员的时间是非常宝贵的。程序员的时间（编程时间）优于机器时间。</p>
+<p><strong>Rule of Generation: Avoid hand-hacking; write programs to write programs when you can.</strong></p>
+<p>生产原则：避免手工编程。如果可以的话，编写可以编写程序的代码。</p>
+<p><strong>Rule of Optimization: Prototype before polishing. Get it working before you optimize it.</strong></p>
+<p>优化原则：建立原型后再去修正。当它能正常工作后，再去优化它。</p>
+<p><strong>Rule of Diversity: Distrust all claims for “one true way”.</strong></p>
+<p>多样性原则：怀疑所有所谓的“不二法门”。</p>
+<p><strong>Rule of Extensibility: Design for the future, because it will be here sooner than you think.</strong></p>
+<p>扩展原则：为未来设计，因为未来来的比你想象的要早。</p>
+</blockquote>
+<p><strong>Mike Gancarz （X Windows 的设计者）给出了下面九条哲学思想：</strong></p>
+<blockquote>
+<p><strong>Small is beautiful.</strong></p>
+<p><em>小即是美。</em></p>
+<p><strong>Make each program do one thing well.</strong></p>
+<p><em>让每个程序（方法）只做一件事情，并把它做好。</em></p>
+<p><strong>Build a prototype as soon as possible.</strong></p>
+<p><em>尽早建立原型。</em></p>
+<p><strong>Choose portability over efficiency.</strong></p>
+<p><em>注重可移植性，而非效率。</em></p>
+<p><strong>Store data in flat text files.</strong></p>
+<p><em>将数据存储在存文本文件中。</em></p>
+<p><strong>Use software leverage to your advantage.</strong></p>
+<p><em>利用软件来发挥你的优势。</em></p>
+<p><strong>Use shell scripts to increase leverage and portability.</strong></p>
+<p><em>使用 Shell 脚本提高编程的手段和程序的可移植性。</em></p>
+<p><strong>Avoid captive user interfaces.</strong></p>
+<p><em>避免过于复杂花哨的界面。</em></p>
+<p><strong>Make every program a filter.</strong></p>
+<p><em>使每个程序（方法）称为一个过滤器（筛选器）</em></p>
+</blockquote>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/20190418/browser-cache/" rel="prev" title="browser-cache">
+                browser-cache <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Sharp</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">5</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">3</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">5</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#设计原则：5-大设计原则"><span class="nav-number">1.</span> <span class="nav-text">设计原则：5 大设计原则</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sharp</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.1.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.0"></script>
+
+  <script src="/js/motion.js?v=7.1.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.1.0"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.0"></script>
+<script src="/js/post-details.js?v=7.1.0"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.0"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
